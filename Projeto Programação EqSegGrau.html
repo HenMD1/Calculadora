@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Site equação segundo grau</title>
+    <link rel="shortcut icon" href= 'favicon.ico' type="image/x-icon">
+</head>
+    <style>
+        body{
+        color:aliceblue;
+        background-color:lightgreen;
+        font: normal 20pt Arial;
+        }
+
+        h1{
+            text-align: center;
+        }
+
+        p{
+            text-align: center;
+        }
+
+        #grafico-caixa{
+            margin: auto;
+            position: absolute;
+        }
+
+    </style>
+    
+<body>
+    <header>
+        <h1>Equação de 2º grau</h1>
+        <p>Escreva os três coeficientes da equação de segundo grau.</p>
+    </header>
+    <center>
+    <section>
+        <div>
+            <input type="Number" id = a style = 'width: 15%; height: 35px; font-size: large'>
+            <input type="Number" id = b style = 'width: 15%; height: 35px; font-size: large'>
+            <input type="Number" id = c style = 'width: 15%; height: 35px; font-size: large;'>
+            <button id = 'conf' onclick = "resEq()" style = 'width: 15%; height: 35px; font-size: large;'>Resolver</button>
+        </div>
+        <div id = resp>x = ?  |  x, = ?</div>
+    </section>
+    
+        <div id = 'grafico caixa'>
+            <canvas id = 'grafico' width="400" height="400" style="border:5px solid #888888"></canvas>
+        </div>
+    </center>
+    <script>
+        function criarcanva(){
+            canva = document.getElementById('grafico')
+            caneta = canva.getContext('2d')
+        }
+
+        function desepla(){
+            caneta.moveTo(200, 0)
+            caneta.lineTo(200, 400)
+            caneta.moveTo(0, 200)
+            caneta.lineTo(400, 200)
+            caneta.moveTo(0, 0)
+            caneta.stroke()
+        }
+
+        function limgra(){
+            canva.value = ''
+        }
+
+        function desegra(){
+            limgra()
+
+            a = document.getElementById('a')
+            b = document.getElementById('b')
+            c = document.getElementById('c')
+            av = parseFloat(a.value)
+            bv = parseFloat(b.value)
+            cv = parseFloat(c.value)        
+
+            eqy = ((av*(-200)**2)*(-1) + bv*-200*(-1) + cv) + 200
+            eqx = 0
+            
+            caneta.moveTo(eqx, eqy)
+
+            for (i = -199; i < 201; i++){
+                eqy = ((av*i**2)*(-1) + bv*i*(-1) + cv*(-1)) + 200
+                caneta.lineTo(i+200, eqy)
+                caneta.stroke()
+                caneta.moveTo(i+200, eqy)
+            }
+        }
+
+        function eqSegGrau(a, b, c){
+            delta = b**2*(-4)*a*c
+            if (delta < 0){
+                return 'Delta negativo'
+            }
+            eqpos = -b + delta**(1/2)
+            eqneg = -b - delta**(1/2)
+            
+            eqpos /= 2
+            eqneg /= 2
+            return [eqpos, eqneg]
+        }
+
+        function resEq(){
+            a = document.getElementById('a')
+            b = document.getElementById('b')
+            c = document.getElementById('c')
+            resp = eqSegGrau(a.value, b.value, c.value)
+            respLug = document.getElementById('resp')
+            if (a.value && b.value && c.value && resp != 'Delta negativo'){
+                respLug.innerHTML = `x = ${resp[0].toFixed(2)}  |  x, = ${resp[1].toFixed(2)}`
+                desegra()
+            } else{
+                respLug.innerHTML = 'Não existem raizes reais.'
+                desegra()
+            }
+        }
+
+        criarcanva()
+        desepla()
+
+    </script>
+
+    <center>
+    <footer>
+        Segredo. Shhhhh!
+    </footer>
+    </center>
+</body>
+</html>
